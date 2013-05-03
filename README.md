@@ -5,22 +5,21 @@ Simple WhatsApp chat client using .NET 4 and WhatsApiNet
 
 USAGE:
 You need an existing whatsapp account with a valid password.
-Enter your credentials in ContactsList.cs
+Enter your credentials in app.config
 
-This program also supports Google contact import.
-Uncomment these lines in ContactsList.cs
+This program uses SQLite to store contacts and messages.
 
-    //ContactStore.SyncGoogleContacts("youremail@gmail.com", "passw3rd");
-    //ContactStore.SyncWaContacts(this.username, this.password);
-and enter your google credentials (full email + password)
-The first line will download and insert all Google contacts with phone numbers.
-The second line will sync all stored contacts with WhatsApp and remove contacts who don't have a WhatsApp account.
+This program also uses Google contacts import on startup.
+Just enter your email and password in the dialog and all contacts having phonenumbers will be imported.
+The application will sync the contacts with WhatsApp servers to check which are valid WhatsApp contacts.
 
-TODO:
-- Login screen (whatsapp & google credentials input)
-- Add contact sync button (manual sync instead of startup sync)
+Currently working on:
+- Add Google contact sync button (manual sync instead of startup sync)
 - Fix image receiving (problem in WhatsApiNet)
 - Add contact image
+
+Pending:
+- Login screen (whatsapp & google credentials input)
 - Custom style in list views (chats, conversation, contacts)
 - Add registration screen (voice & sms) and credentials check
 - Add credits for used libraries (in /Libraries)
