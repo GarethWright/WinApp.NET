@@ -30,7 +30,9 @@ namespace WinAppNET
             this.Text = "Chat with " + ContactStore.GetContactByJid(this.target).ToString();
             WappSocket.Instance.WhatsSendHandler.SendQueryLastOnline(this.target);
             WappSocket.Instance.WhatsSendHandler.SendPresenceSubscriptionRequest(this.target);
-            WappSocket.Instance.WhatsSendHandler.SendGetPhoto(this.target, false);
+
+            //Broken at the moment, do not use!
+            //WappSocket.Instance.WhatsSendHandler.SendGetPhoto(this.target, false);
         }
 
         void ProcessGroupChat()

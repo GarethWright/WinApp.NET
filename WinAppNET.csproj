@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WinAppNET</RootNamespace>
-    <AssemblyName>MyWapi</AssemblyName>
+    <AssemblyName>WinAppNET</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -53,6 +53,7 @@
       <HintPath>Libraries\PhoneNumbers.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite">
       <HintPath>Libraries\System.Data.SQLite.dll</HintPath>
@@ -93,6 +94,12 @@
     <Compile Include="ContactsSelector.Designer.cs">
       <DependentUpon>ContactsSelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\frmGoogleSync.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\frmGoogleSync.Designer.cs">
+      <DependentUpon>frmGoogleSync.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ChatWindow.resx">
@@ -103,6 +110,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ContactsSelector.resx">
       <DependentUpon>ContactsSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\frmGoogleSync.resx">
+      <DependentUpon>frmGoogleSync.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

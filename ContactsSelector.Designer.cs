@@ -56,8 +56,10 @@
             this.ClientSize = new System.Drawing.Size(284, 424);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.listBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ContactsSelector";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "ContactsSelector";
             this.Activated += new System.EventHandler(this.ContactsSelector_Activated);
             this.ResumeLayout(false);

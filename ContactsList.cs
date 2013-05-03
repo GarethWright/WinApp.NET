@@ -25,32 +25,8 @@ namespace WinAppNET
 
         public ContactsList()
         {
-            string nickname = "WhatsAPINet";
-            this.username = "";
-            this.password = "";
-
             InitializeComponent();
-            ContactStore.CheckTable();
-            MessageStore.CheckTable();
-
             this.FormClosing += this.ContactsList_OnClosing;
-
-            //sync contacts
-            //ContactStore.SyncGoogleContacts("youremail@gmail.com", "passw3rd");
-            //ContactStore.SyncWaContacts(this.username, this.password);
-
-            this.listBox1.DoubleClick += new EventHandler(listBox1_DoubleClick);
-            this._loadConversations();
-            this.listBox1.DataSource = this.contacts;
-
-            WappSocket.Create(this.username, this.password, nickname, true);
-            WappSocket.Instance.Connect();
-            WappSocket.Instance.Login();
-            WappSocket.Instance.sendNickname(nickname);
-
-            Thread listener = new Thread(new ThreadStart(Listen));
-            listener.IsBackground = true;
-            listener.Start();
         }
 
         private void ContactsList_OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -62,25 +38,47 @@ namespace WinAppNET
             }
         }
 
+        delegate void remoteDelegate();
+
         protected void _loadConversations()
         {
-            DbProviderFactory fact = DbProviderFactories.GetFactory("System.Data.SQLite");
-            using (DbConnection cnn = fact.CreateConnection())
+            if (this.InvokeRequired)
             {
-                cnn.ConnectionString = "Data Source=messages.db3";
-                cnn.Open();
-                DbCommand cmd = cnn.CreateCommand();
-                cmd = cnn.CreateCommand();
-                cmd.CommandText = "SELECT jid FROM Messages GROUP BY jid";
-                DbDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    string jid = reader["jid"].ToString();
-                    Contact contact = ContactStore.GetContactByJid(jid);
-                    if (contact != null)
-                        this.contacts.Add(contact);
-                }
+                remoteDelegate r = new remoteDelegate(_loadConversations);
+                this.Invoke(r);
             }
+            else
+            {
+                DbProviderFactory fact = DbProviderFactories.GetFactory("System.Data.SQLite");
+                using (DbConnection cnn = fact.CreateConnection())
+                {
+                    cnn.ConnectionString = "Data Source=messages.db3";
+                    cnn.Open();
+                    DbCommand cmd = cnn.CreateCommand();
+                    cmd = cnn.CreateCommand();
+                    cmd.CommandText = "SELECT jid FROM Messages GROUP BY jid";
+                    DbDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        string jid = reader["jid"].ToString();
+                        Contact contact = ContactStore.GetContactByJid(jid);
+                        if (contact != null)
+                        {
+                            this.contacts.Add(contact);
+                        }
+                    }
+                }
+
+                //done
+                this.label1.Hide();
+                this.listBox1.Enabled = true;
+            }
+        }
+
+        protected void SyncWaContactsAsync()
+        {
+            ContactStore.SyncWaContacts(this.username, this.password);
+            this._loadConversations();
         }
 
         private void listBox1_DoubleClick(object sender, EventArgs e)
@@ -324,6 +322,41 @@ namespace WinAppNET
                     break;
                 }
             }
+        }
+
+        private void ContactsList_Load(object sender, EventArgs e)
+        {
+            string nickname = "WhatsAPINet";
+            this.username = System.Configuration.ConfigurationManager.AppSettings.Get("Username");
+            this.password = System.Configuration.ConfigurationManager.AppSettings.Get("Password");
+
+            if (string.IsNullOrEmpty(this.username) || string.IsNullOrEmpty(this.password))
+            {
+                throw new Exception("Please enter credentials!");
+            }
+            ContactStore.CheckTable();
+            MessageStore.CheckTable();
+
+            //sync contacts
+            Dialogs.frmGoogleSync gsync = new Dialogs.frmGoogleSync();
+            gsync.ShowDialog(this);
+
+            Thread t = new Thread(new ThreadStart(SyncWaContactsAsync));
+            t.IsBackground = true;
+            t.Start();
+
+            this.listBox1.DoubleClick += new EventHandler(listBox1_DoubleClick);
+            
+            this.listBox1.DataSource = this.contacts;
+
+            WappSocket.Create(this.username, this.password, nickname, true);
+            WappSocket.Instance.Connect();
+            WappSocket.Instance.Login();
+            WappSocket.Instance.sendNickname(nickname);
+
+            Thread listener = new Thread(new ThreadStart(Listen));
+            listener.IsBackground = true;
+            listener.Start();
         }
     }
 }
