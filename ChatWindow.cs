@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using WhatsAppApi.Helper;
 using System.Threading;
 using WinAppNET.AppCode;
+using System.IO;
 
 namespace WinAppNET
 {
@@ -31,8 +32,35 @@ namespace WinAppNET
             WappSocket.Instance.WhatsSendHandler.SendQueryLastOnline(this.target);
             WappSocket.Instance.WhatsSendHandler.SendPresenceSubscriptionRequest(this.target);
 
-            //Broken at the moment, do not use!
-            //WappSocket.Instance.WhatsSendHandler.SendGetPhoto(this.target, false);
+            //load image
+            string filepath = this.getCacheImagePath();
+            if (File.Exists(filepath))
+            {
+                try
+                {
+                    Image img = Image.FromFile(filepath);
+                    this.pictureBox1.Image = img;
+                }
+                catch (Exception ex)
+                {
+                    this.GetImageAsync();
+                }
+
+            }
+            else
+            {
+                this.GetImageAsync();
+            }
+        }
+
+        protected string getCacheImagePath()
+        {
+            return Directory.GetCurrentDirectory() + "\\profilecache\\" + this.target + ".jpg";
+        }
+
+        public void GetImageAsync()
+        {
+            WappSocket.Instance.WhatsSendHandler.SendGetPhoto(this.target, false);
         }
 
         void ProcessGroupChat()
@@ -47,6 +75,12 @@ namespace WinAppNET
                 this.IsGroup = true;
             this.target = target;
             InitializeComponent();
+
+            Contact con = ContactStore.GetContactByJid(target);
+
+            this.lblNick.Text = con.nickname;
+            this.lblUserStatus.Text = con.status;
+
             listBox1.DataSource = messages;
 
             if (this.IsGroup)
@@ -133,19 +167,6 @@ namespace WinAppNET
             else
             {
                 this.label1.Text = "Online";
-            }
-        }
-
-        public void SetAvailable()
-        {
-            if (this.label1.InvokeRequired)
-            {
-                SetOnlineCallback t = new SetOnlineCallback(SetAvailable);
-                this.Invoke(t, null);
-            }
-            else
-            {
-                this.label1.Text = "Available";
             }
         }
 
@@ -241,6 +262,13 @@ namespace WinAppNET
         private void ChatWindow_Load(object sender, EventArgs e)
         {
             this.textBox1.Focus();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            //redownload image
+            this.pictureBox1.Image = null;
+            this.GetImageAsync();
         }
     }
 }

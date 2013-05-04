@@ -34,6 +34,8 @@
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lblUserStatus = new System.Windows.Forms.Label();
+            this.lblNick = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,10 +69,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(115, 12);
+            this.label1.Location = new System.Drawing.Point(115, 95);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 13);
+            this.label1.Size = new System.Drawing.Size(96, 13);
             this.label1.TabIndex = 4;
+            this.label1.Text = "ONLINE_STATUS";
             // 
             // pictureBox1
             // 
@@ -79,6 +82,25 @@
             this.pictureBox1.Size = new System.Drawing.Size(96, 96);
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // lblUserStatus
+            // 
+            this.lblUserStatus.AutoSize = true;
+            this.lblUserStatus.Location = new System.Drawing.Point(115, 69);
+            this.lblUserStatus.Name = "lblUserStatus";
+            this.lblUserStatus.Size = new System.Drawing.Size(80, 13);
+            this.lblUserStatus.TabIndex = 6;
+            this.lblUserStatus.Text = "USERSTATUS";
+            // 
+            // lblNick
+            // 
+            this.lblNick.AutoSize = true;
+            this.lblNick.Location = new System.Drawing.Point(115, 39);
+            this.lblNick.Name = "lblNick";
+            this.lblNick.Size = new System.Drawing.Size(63, 13);
+            this.lblNick.TabIndex = 7;
+            this.lblNick.Text = "NICKNAME";
             // 
             // ChatWindow
             // 
@@ -86,6 +108,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(294, 425);
+            this.Controls.Add(this.lblNick);
+            this.Controls.Add(this.lblUserStatus);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listBox1);
@@ -93,6 +117,7 @@
             this.Controls.Add(this.textBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "ChatWindow";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Chat";
@@ -110,6 +135,8 @@
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label lblUserStatus;
+        private System.Windows.Forms.Label lblNick;
     }
 }
 
