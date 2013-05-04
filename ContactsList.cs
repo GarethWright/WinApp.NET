@@ -106,7 +106,6 @@ namespace WinAppNET
                 this.ChatWindows[jid.ToString()].DoActivate();
                 return;
             }
-            ChatWindow c = this.ChatWindows[jid.ToString()];
             try
             {
                 Application.Run(this.ChatWindows[jid.ToString()]);//.Show();
@@ -181,6 +180,18 @@ namespace WinAppNET
                     string jid = node.GetAttribute("from");
                     if (body != null)
                     {
+                        //extract and save nickname
+                        if (node.GetChild("notify") != null && node.GetChild("notify").GetAttribute("name") != null)
+                        {
+                            string nick = node.GetChild("notify").GetAttribute("name");
+                            Contact c = ContactStore.GetContactByJid(jid);
+                            if (c != null)
+                            {
+                                c.nickname = nick;
+                                ContactStore.UpdateNickname(c);
+                            }
+                        }
+
                         try
                         {
                             getChat(jid, true).AddMessage(node);
@@ -208,15 +219,15 @@ namespace WinAppNET
                 else if (node.tag.Equals("presence"))
                 {
                     string jid = node.GetAttribute("from");
-                    if (node.GetAttribute("type").Equals("available"))
+                    if (node.GetAttribute("type") != null && node.GetAttribute("type").Equals("available"))
                     {
                         try
                         {
-                            getChat(jid, false).SetAvailable();
+                            getChat(jid, false).SetOnline();
                         }
                         catch (Exception e) { }
                     }
-                    if (node.GetAttribute("type").Equals("unavailable"))
+                    if (node.GetAttribute("type") != null && node.GetAttribute("type").Equals("unavailable"))
                     {
                         try
                         {
@@ -234,7 +245,14 @@ namespace WinAppNET
                         DateTime lastseen = DateTime.Now;
                         int seconds = Int32.Parse(node.GetChild("query").GetAttribute("seconds"));
                         lastseen = lastseen.Subtract(new TimeSpan(0, 0, seconds));
-                        getChat(jid, false).SetLastSeen(lastseen);
+                        try
+                        {
+                            getChat(jid, false).SetLastSeen(lastseen);
+                        }
+                        catch (Exception e)
+                        {
+
+                        }
                     }
                     else if (node.children.First().tag.Equals("group"))
                     {
@@ -255,11 +273,6 @@ namespace WinAppNET
                         string pjid = node.GetAttribute("from");
                         byte[] rawpicture = node.GetChild("picture").GetData();
                         Contact c = ContactStore.GetContactByJid(pjid);
-                        //FileStream fs = new FileStream("images/image_" + c.id, FileMode.OpenOrCreate);
-                        //BinaryWriter w = new BinaryWriter(fs);
-                        //w.Write(rawpicture);
-                        //w.Close();
-                        //fs.Close();
 
                         Image img = null;
                         using (var ms = new MemoryStream(rawpicture))
@@ -267,15 +280,13 @@ namespace WinAppNET
                             try
                             {
                                 img = Image.FromStream(ms);
-                                img.Save("images/" + c.id + ".jpg");
-                                try
+                                string targetdir = Directory.GetCurrentDirectory() + "\\profilecache";
+                                if(!Directory.Exists(targetdir))
                                 {
-                                    this.getChat(pjid, false).SetPicture(img);
+                                    Directory.CreateDirectory(targetdir);
                                 }
-                                catch (Exception e)
-                                {
-
-                                }
+                                img.Save(targetdir + "\\" + c.jid + ".jpg");
+                                this.getChat(pjid, false).SetPicture(img);
                             }
                             catch (Exception e)
                             {
@@ -337,9 +348,6 @@ namespace WinAppNET
             ContactStore.CheckTable();
             MessageStore.CheckTable();
 
-            //sync contacts
-            Dialogs.frmGoogleSync gsync = new Dialogs.frmGoogleSync();
-            gsync.ShowDialog(this);
 
             Thread t = new Thread(new ThreadStart(SyncWaContactsAsync));
             t.IsBackground = true;
@@ -357,6 +365,22 @@ namespace WinAppNET
             Thread listener = new Thread(new ThreadStart(Listen));
             listener.IsBackground = true;
             listener.Start();
+        }
+
+        private void btnGoogle_Click(object sender, EventArgs e)
+        {
+            //reset
+            this.contacts.Clear();
+            this.label1.Text = "Updating contacts...";
+            this.label1.Show();
+
+            //sync contacts
+            Dialogs.frmGoogleSync gsync = new Dialogs.frmGoogleSync();
+            gsync.ShowDialog(this);
+
+            Thread t = new Thread(new ThreadStart(SyncWaContactsAsync));
+            t.IsBackground = true;
+            t.Start();
         }
     }
 }
