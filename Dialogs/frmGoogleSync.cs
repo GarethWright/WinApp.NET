@@ -24,11 +24,6 @@ namespace WinAppNET.Dialogs
             InitializeComponent();
         }
 
-        private void btnNo_Click(object sender, EventArgs e)
-        {
-            this.Dispose();
-        }
-
         delegate void setLabelTextDelegate(string text, Color color);
 
         protected void setLabelText(string text, Color color)
@@ -93,7 +88,6 @@ namespace WinAppNET.Dialogs
             else
             {
                 this.btnSync.Hide();
-                this.btnNo.Hide();
                 this.progressBar.Show();
                 this.progressBar.Minimum = 0;
                 this.progressBar.Maximum = total;
