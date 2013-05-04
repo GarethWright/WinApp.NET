@@ -58,9 +58,10 @@
             this.Controls.Add(this.listBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "ContactsSelector";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "ContactsSelector";
+            this.Text = "Select a contact";
             this.Activated += new System.EventHandler(this.ContactsSelector_Activated);
             this.ResumeLayout(false);
             this.PerformLayout();

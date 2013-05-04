@@ -34,7 +34,6 @@
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.lblError = new System.Windows.Forms.Label();
             this.btnSync = new System.Windows.Forms.Button();
-            this.btnNo = new System.Windows.Forms.Button();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
@@ -83,23 +82,13 @@
             // 
             // btnSync
             // 
-            this.btnSync.Location = new System.Drawing.Point(15, 97);
+            this.btnSync.Location = new System.Drawing.Point(141, 97);
             this.btnSync.Name = "btnSync";
             this.btnSync.Size = new System.Drawing.Size(127, 27);
             this.btnSync.TabIndex = 5;
             this.btnSync.Text = "Synchronize contacts";
             this.btnSync.UseVisualStyleBackColor = true;
             this.btnSync.Click += new System.EventHandler(this.btnSync_Click);
-            // 
-            // btnNo
-            // 
-            this.btnNo.Location = new System.Drawing.Point(149, 97);
-            this.btnNo.Name = "btnNo";
-            this.btnNo.Size = new System.Drawing.Size(119, 27);
-            this.btnNo.TabIndex = 6;
-            this.btnNo.Text = "No thanks!";
-            this.btnNo.UseVisualStyleBackColor = true;
-            this.btnNo.Click += new System.EventHandler(this.btnNo_Click);
             // 
             // progressBar
             // 
@@ -115,14 +104,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 136);
-            this.Controls.Add(this.progressBar);
-            this.Controls.Add(this.btnNo);
             this.Controls.Add(this.btnSync);
             this.Controls.Add(this.lblError);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtEmail);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.progressBar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "frmGoogleSync";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
@@ -140,7 +128,6 @@
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Label lblError;
         private System.Windows.Forms.Button btnSync;
-        private System.Windows.Forms.Button btnNo;
         private System.Windows.Forms.ProgressBar progressBar;
     }
 }
