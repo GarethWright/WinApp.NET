@@ -31,7 +31,7 @@ namespace WinAppNET.AppCode
             {
                 ret =  this.given_name + " " + this.family_name;
             }
-            if(!String.IsNullOrEmpty(this.nickname))
+            else if(!String.IsNullOrEmpty(this.nickname))
             {
                 ret = this.nickname;
             }
