@@ -222,6 +222,7 @@ namespace WinAppNET
             {
                 WappMessage msg = new WappMessage(node, this.target);
                 this.messages.Add(msg);
+                MessageStore.AddMessage(msg);
                 this.Activate();
                 
             }
