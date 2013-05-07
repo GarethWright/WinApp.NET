@@ -13,6 +13,8 @@ namespace WinAppNET.AppCode
 {
     class ContactStore
     {
+        public const string ConnectionString = "Data Source=data/sqlite/contacts.db3";
+
         public static Contact GetContactByJid(string jid)
         {
             Contact contact;
@@ -20,7 +22,7 @@ namespace WinAppNET.AppCode
             DbProviderFactory fact = DbProviderFactories.GetFactory("System.Data.SQLite");
             using (DbConnection cnn = fact.CreateConnection())
             {
-                cnn.ConnectionString = "Data Source=contacts.db3";
+                cnn.ConnectionString = ContactStore.ConnectionString;
                 cnn.Open();
                 DbCommand cmd = cnn.CreateCommand();
                 cmd = cnn.CreateCommand();
@@ -88,7 +90,7 @@ namespace WinAppNET.AppCode
             DbProviderFactory fact = DbProviderFactories.GetFactory("System.Data.SQLite");
             using (DbConnection cnn = fact.CreateConnection())
             {
-                cnn.ConnectionString = "Data Source=contacts.db3";
+                cnn.ConnectionString = ContactStore.ConnectionString;
                 cnn.Open();
                 DbCommand cmd = cnn.CreateCommand();
                 cmd.CommandText = @"CREATE TABLE IF NOT EXISTS
@@ -111,7 +113,7 @@ namespace WinAppNET.AppCode
             DbProviderFactory fact = DbProviderFactories.GetFactory("System.Data.SQLite");
             using (DbConnection cnn = fact.CreateConnection())
             {
-                cnn.ConnectionString = "Data Source=contacts.db3";
+                cnn.ConnectionString = ContactStore.ConnectionString;
                 cnn.Open();
                 DbCommand cmd = cnn.CreateCommand();
                 cmd = cnn.CreateCommand();
@@ -138,7 +140,7 @@ namespace WinAppNET.AppCode
             DbProviderFactory fact = DbProviderFactories.GetFactory("System.Data.SQLite");
             using (DbConnection cnn = fact.CreateConnection())
             {
-                cnn.ConnectionString = "Data Source=contacts.db3";
+                cnn.ConnectionString = ContactStore.ConnectionString;
                 cnn.Open();
                 DbCommand cmd = cnn.CreateCommand();
                 cmd.CommandText = @"INSERT INTO
@@ -161,57 +163,12 @@ VALUES (
             }
         }
 
-        //public static void SyncGoogleContacts(string username, string password)
-        //{
-        //    ContactsService GContactService = new ContactsService("Contact Infomation");
-        //    GContactService.setUserCredentials(username, password);
-
-        //    ContactsQuery query = new ContactsQuery(ContactsQuery.
-        //    CreateContactsUri("default"));
-
-        //    ContactsFeed feed = GContactService.Query(query);
-
-        //    int startIndex = 0;
-        //    while(feed.Entries.Count > 0)
-        //    {
-        //        startIndex += feed.ItemsPerPage;
-        //        query.StartIndex = startIndex;
-        //        PhoneNumbers.PhoneNumberUtil util = PhoneNumbers.PhoneNumberUtil.GetInstance();
-        //        foreach (ContactEntry entry in feed.Entries)
-        //        {
-        //            if (entry.Phonenumbers.Count > 0)
-        //            {
-        //                foreach (PhoneNumber number in entry.Phonenumbers)
-        //                {
-        //                    string numb = string.Empty;
-        //                    try
-        //                    {
-        //                        PhoneNumbers.PhoneNumber num = util.Parse(number.Value, "NL");
-        //                        numb = num.CountryCode.ToString() + num.NationalNumber.ToString();
-        //                    }
-        //                    catch (PhoneNumbers.NumberParseException e)
-        //                    {
-        //                        Console.WriteLine("NumberParseException was thrown: " + e.Message);
-        //                        continue;
-        //                    }
-        //                    if (!numberExists(numb + "@s.whatsapp.net"))
-        //                    {
-        //                        Contact contact = new Contact(0, numb + "@s.whatsapp.net", "", "", entry.Name.GivenName, entry.Name.FamilyName);
-        //                        AddContact(contact);
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        feed = GContactService.Query(query);
-        //    }
-        //}
-
         public static bool numberExists(string jid)
         {
             DbProviderFactory fact = DbProviderFactories.GetFactory("System.Data.SQLite");
             using (DbConnection cnn = fact.CreateConnection())
             {
-                cnn.ConnectionString = "Data Source=contacts.db3";
+                cnn.ConnectionString = ContactStore.ConnectionString;
                 cnn.Open();
                 DbCommand cmd = cnn.CreateCommand();
                 cmd.CommandText = "SELECT * FROM Contacts WHERE jid = @jid";
@@ -229,7 +186,7 @@ VALUES (
             DbProviderFactory fact = DbProviderFactories.GetFactory("System.Data.SQLite");
             using (DbConnection cnn = fact.CreateConnection())
             {
-                cnn.ConnectionString = "Data Source=contacts.db3";
+                cnn.ConnectionString = ContactStore.ConnectionString;
                 cnn.Open();
                 DbCommand cmd = cnn.CreateCommand();
                 cmd.CommandText = @"UPDATE
@@ -248,7 +205,7 @@ WHERE jid = @gjid";
             DbProviderFactory fact = DbProviderFactories.GetFactory("System.Data.SQLite");
             using (DbConnection cnn = fact.CreateConnection())
             {
-                cnn.ConnectionString = "Data Source=contacts.db3";
+                cnn.ConnectionString = ContactStore.ConnectionString;
                 cnn.Open();
                 DbCommand cmd = cnn.CreateCommand();
                 cmd.CommandText = @"UPDATE
@@ -267,7 +224,7 @@ WHERE jid = @gjid";
             DbProviderFactory fact = DbProviderFactories.GetFactory("System.Data.SQLite");
             using (DbConnection cnn = fact.CreateConnection())
             {
-                cnn.ConnectionString = "Data Source=contacts.db3";
+                cnn.ConnectionString = ContactStore.ConnectionString;
                 cnn.Open();
                 DbCommand cmd = cnn.CreateCommand();
                 cmd.CommandText = @"DELETE

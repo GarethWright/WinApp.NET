@@ -9,12 +9,14 @@ namespace WinAppNET.AppCode
 {
     class MessageStore
     {
+        public const string ConnectionString = "Data Source=data/sqlite/messages.db3";
+
         public static void CheckTable()
         {
             DbProviderFactory fact = DbProviderFactories.GetFactory("System.Data.SQLite");
             using (DbConnection cnn = fact.CreateConnection())
             {
-                cnn.ConnectionString = "Data Source=messages.db3";
+                cnn.ConnectionString = MessageStore.ConnectionString;
                 cnn.Open();
                 DbCommand cmd = cnn.CreateCommand();
                 cmd.CommandText = @"CREATE TABLE IF NOT EXISTS
@@ -37,7 +39,7 @@ namespace WinAppNET.AppCode
             DbProviderFactory fact = DbProviderFactories.GetFactory("System.Data.SQLite");
             using (DbConnection cnn = fact.CreateConnection())
             {
-                cnn.ConnectionString = "Data Source=messages.db3";
+                cnn.ConnectionString = MessageStore.ConnectionString;
                 cnn.Open();
                 DbCommand cmd = cnn.CreateCommand();
                 cmd = cnn.CreateCommand();
@@ -63,7 +65,7 @@ namespace WinAppNET.AppCode
             DbProviderFactory fact = DbProviderFactories.GetFactory("System.Data.SQLite");
             using (DbConnection cnn = fact.CreateConnection())
             {
-                cnn.ConnectionString = "Data Source=messages.db3";
+                cnn.ConnectionString = MessageStore.ConnectionString;
                 cnn.Open();
                 DbCommand cmd = cnn.CreateCommand();
                 cmd.CommandText = @"INSERT INTO

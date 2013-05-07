@@ -52,7 +52,7 @@ namespace WinAppNET
                 DbProviderFactory fact = DbProviderFactories.GetFactory("System.Data.SQLite");
                 using (DbConnection cnn = fact.CreateConnection())
                 {
-                    cnn.ConnectionString = "Data Source=messages.db3";
+                    cnn.ConnectionString = MessageStore.ConnectionString;
                     cnn.Open();
                     DbCommand cmd = cnn.CreateCommand();
                     cmd = cnn.CreateCommand();
@@ -280,7 +280,7 @@ namespace WinAppNET
                             try
                             {
                                 img = Image.FromStream(ms);
-                                string targetdir = Directory.GetCurrentDirectory() + "\\profilecache";
+                                string targetdir = Directory.GetCurrentDirectory() + "\\data\\profilecache";
                                 if(!Directory.Exists(targetdir))
                                 {
                                     Directory.CreateDirectory(targetdir);

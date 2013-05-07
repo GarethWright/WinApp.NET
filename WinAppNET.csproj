@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="AppCode\Contact.cs" />
     <Compile Include="AppCode\ContactStore.cs" />
+    <Compile Include="AppCode\Helper.cs" />
     <Compile Include="AppCode\Message.cs" />
     <Compile Include="AppCode\MessageStore.cs" />
     <Compile Include="AppCode\WappSocket.cs" />

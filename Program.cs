@@ -20,6 +20,7 @@ namespace WinAppNET
         [STAThread]
         static void Main()
         {
+            Helper.CreateFolderTree();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new ContactsList());

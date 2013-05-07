@@ -55,7 +55,7 @@ namespace WinAppNET
 
         protected string getCacheImagePath()
         {
-            return Directory.GetCurrentDirectory() + "\\profilecache\\" + this.target + ".jpg";
+            return Directory.GetCurrentDirectory() + "\\data\\profilecache\\" + this.target + ".jpg";
         }
 
         public void GetImageAsync()
