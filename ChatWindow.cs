@@ -10,6 +10,7 @@ using WhatsAppApi.Helper;
 using System.Threading;
 using WinAppNET.AppCode;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace WinAppNET
 {
@@ -78,6 +79,12 @@ namespace WinAppNET
 
             Contact con = ContactStore.GetContactByJid(target);
 
+            if (con == null)
+            {
+                con = new Contact(-1, target, "", "", "", "");
+                ContactStore.AddContact(con);
+            }
+
             this.lblNick.Text = con.nickname;
             this.lblUserStatus.Text = con.status;
 
@@ -106,9 +113,13 @@ namespace WinAppNET
             }
             else
             {
-                this.Activate();
+                FlashWindow(this.Handle, true);
+                //this.Activate();
             }
         }
+
+        [DllImport("user32.dll")]
+        static extern bool FlashWindow(IntPtr hwnd, bool bInvert);
 
         public void DoDispose()
         {
