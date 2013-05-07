@@ -14,11 +14,14 @@ Just enter your email and password in the dialog and all contacts having phonenu
 The application will sync the contacts with WhatsApp servers to check which are valid WhatsApp contacts.
 
 Currently working on:
+- Group chats
+- Change your profile (status, nickname & profile picture)
+- Receiving media files
 - Add credits for used libraries (in /Libraries)
 - Custom style in list views (chats, conversation, contacts)
 
-Pending:
-- Receiving media files
+To-do:
+- Full-sized profile pictures (700px*700px, only 100px*100px previews are used at the moment)
 - Sending media files
 - Import contacts from other services
 - MSI installer
