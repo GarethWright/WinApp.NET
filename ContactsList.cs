@@ -126,11 +126,19 @@ namespace WinAppNET
             }
         }
 
-        public void OpenConversationThread(string jid)
+        public void OpenConversationThread(string jid, bool stealFocus)
         {
             try
             {
-                Thread t = new Thread(new ParameterizedThreadStart(OpenConversation));
+                Thread t;
+                if (stealFocus)
+                {
+                    t = new Thread(new ParameterizedThreadStart(OpenConversationWithFocus));
+                }
+                else
+                {
+                    t = new Thread(new ParameterizedThreadStart(OpenConversation));
+                }
                 t.IsBackground = true;
                 t.Start(jid);
             }
@@ -149,7 +157,7 @@ namespace WinAppNET
             DialogResult res = this.selector.ShowDialog(this);
             if (res == DialogResult.OK)
             {
-                this.OpenConversationThread(this.selector.SelectedJID);
+                this.OpenConversationThread(this.selector.SelectedJID, true);
             }
             this.selector.Dispose();
         }

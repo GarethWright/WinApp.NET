@@ -74,6 +74,14 @@ namespace WinAppNET
         public ChatWindow(string target, bool stealFocus)
         {
             this.stealFocus = stealFocus;
+            if (stealFocus)
+            {
+                this.WindowState = FormWindowState.Normal;
+            }
+            else
+            {
+                this.WindowState = FormWindowState.Minimized;
+            }
             if(target.Contains("-"))
                 this.IsGroup = true;
             this.target = target;
@@ -274,7 +282,10 @@ namespace WinAppNET
         private void ChatWindow_Load(object sender, EventArgs e)
         {
             this.textBox1.Focus();
-            this.DoActivate();
+            if (!this.stealFocus)
+            {
+                this.DoActivate();
+            }
             this.stealFocus = false;//do not steal focus on incoming messages
         }
 
