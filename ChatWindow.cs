@@ -20,6 +20,7 @@ namespace WinAppNET
         public string target;
         ClientState state = ClientState.ONLINE;
         public bool IsGroup = false;
+        public bool stealFocus = false;
 
         enum ClientState
         {
@@ -70,8 +71,9 @@ namespace WinAppNET
             WappSocket.Instance.WhatsSendHandler.SendGetGroupInfo(this.target);
         }
 
-        public ChatWindow(string target)
+        public ChatWindow(string target, bool stealFocus)
         {
+            this.stealFocus = stealFocus;
             if(target.Contains("-"))
                 this.IsGroup = true;
             this.target = target;
@@ -114,7 +116,6 @@ namespace WinAppNET
             else
             {
                 FlashWindow(this.Handle, true);
-                //this.Activate();
             }
         }
 
@@ -234,7 +235,6 @@ namespace WinAppNET
                 WappMessage msg = new WappMessage(node, this.target);
                 this.messages.Add(msg);
                 MessageStore.AddMessage(msg);
-                this.Activate();
                 
             }
         }
@@ -274,6 +274,8 @@ namespace WinAppNET
         private void ChatWindow_Load(object sender, EventArgs e)
         {
             this.textBox1.Focus();
+            this.DoActivate();
+            this.stealFocus = false;//do not steal focus on incoming messages
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -281,6 +283,14 @@ namespace WinAppNET
             //redownload image
             this.pictureBox1.Image = null;
             this.GetImageAsync();
+        }
+
+        protected override bool ShowWithoutActivation
+        {
+            get
+            {
+                return !this.stealFocus;
+            }
         }
     }
 }

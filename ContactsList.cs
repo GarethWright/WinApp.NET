@@ -86,20 +86,30 @@ namespace WinAppNET
              if (this.listBox1.SelectedItem != null)
              {
                  Contact item = (Contact)this.listBox1.SelectedItem;
-                 Thread chat = new Thread(new ParameterizedThreadStart(OpenConversation));
+                 Thread chat = new Thread(new ParameterizedThreadStart(OpenConversationWithFocus));
                  chat.Start(item.jid);
              }
         }
 
         public void OpenConversation(object jid)
         {
+            this._openConversation(jid, false);
+        }
+
+        public void OpenConversationWithFocus(object jid)
+        {
+            this._openConversation(jid, true);
+        }
+
+        protected void _openConversation(object jid, bool stealFocus)
+        {
             if (!this.ChatWindows.ContainsKey(jid.ToString()))
             {
-                this.ChatWindows.Add(jid.ToString(), new ChatWindow(jid.ToString()));//create
+                this.ChatWindows.Add(jid.ToString(), new ChatWindow(jid.ToString(), stealFocus));//create
             }
             else if (this.ChatWindows[jid.ToString()].IsDisposed)
             {
-                this.ChatWindows[jid.ToString()] = new ChatWindow(jid.ToString());//renew
+                this.ChatWindows[jid.ToString()] = new ChatWindow(jid.ToString(), stealFocus);//renew
             }
             else
             {
@@ -108,7 +118,7 @@ namespace WinAppNET
             }
             try
             {
-                Application.Run(this.ChatWindows[jid.ToString()]);//.Show();
+                Application.Run(this.ChatWindows[jid.ToString()]);
             }
             catch (Exception e)
             {
@@ -149,6 +159,7 @@ namespace WinAppNET
             if (forceOpen)
             {
                 Thread t = new Thread(new ParameterizedThreadStart(this.OpenConversation));
+                t.IsBackground = true;
                 t.Start(jid);
             }
 
