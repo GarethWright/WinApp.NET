@@ -1,5 +1,6 @@
 WinApp.NET
 ==========
+![WinApp.NET](https://dl.dropboxusercontent.com/u/68235039/winapi.png)
 
 Simple WhatsApp chat client using .NET 4 and WhatsApiNet
 
