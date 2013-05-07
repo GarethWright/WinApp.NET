@@ -127,6 +127,12 @@ namespace WinAppNET
             }
         }
 
+        protected void ScrollToBottom()
+        {
+            int visibleItems = this.listBox1.ClientSize.Height / this.listBox1.ItemHeight;
+            this.listBox1.TopIndex = Math.Max(this.listBox1.Items.Count - visibleItems + 1, 0);
+        }
+
         [DllImport("user32.dll")]
         static extern bool FlashWindow(IntPtr hwnd, bool bInvert);
 
@@ -228,6 +234,7 @@ namespace WinAppNET
                 WappMessage msg = new WappMessage(message, this.target);
                 this.messages.Add(msg);
                 MessageStore.AddMessage(msg);
+                this.ScrollToBottom();
             }
         }
 
@@ -243,7 +250,7 @@ namespace WinAppNET
                 WappMessage msg = new WappMessage(node, this.target);
                 this.messages.Add(msg);
                 MessageStore.AddMessage(msg);
-                
+                this.ScrollToBottom();
             }
         }
 
@@ -287,6 +294,7 @@ namespace WinAppNET
                 this.DoActivate();
             }
             this.stealFocus = false;//do not steal focus on incoming messages
+            this.ScrollToBottom();
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
